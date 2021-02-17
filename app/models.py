@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 class Song(db.Model):
     """
@@ -8,9 +9,9 @@ class Song(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True)
-    duration = models.DurationField(_("Duration in seconds "),index=True)
-    timestamp = models.TimeField(_("Date"), auto_now=False, auto_now_add=False)
-
+    duration = db.Column(db.Integer, index=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
 class Podcast(db.Model):
     """
     Create an Podcast table
@@ -19,11 +20,9 @@ class Podcast(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True)
-    duration = models.DurationField(_("Duration in seconds "),index=True)
+    duration = db.Column(db.Integer, index=False)
     host = db.Column(db.String(100), index=True)
-    timestamp = models.TimeField(_("Date"), auto_now=False, auto_now_add=False)
     participants = db.Column(db.String(100), index=False)
-
 
 class Audiobook(db.Model):
     """
@@ -35,6 +34,5 @@ class Audiobook(db.Model):
     title = db.Column(db.String(100), index=True)
     author_title = db.Column(db.String(100), index=True)
     narrator = db.Column(db.String(100), index=True)
-    duration = models.DurationField(_("Duration in seconds "),index=True)
-    timestamp = models.TimeField(_("Date"), auto_now=False, auto_now_add=False)
-   
+    duration = db.Column(db.Integer, index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
